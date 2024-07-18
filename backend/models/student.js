@@ -1,11 +1,6 @@
 const mongoose = require('mongoose');
 
 const studentSchema = new mongoose.Schema({
-  id: {
-    type: String,
-    required: true,
-    unique: true
-  },
   name: {
     type: String,
     required: true
@@ -21,15 +16,15 @@ const studentSchema = new mongoose.Schema({
   },
   mentor: {
     type: String, // Faculty ID
-    required: true
+    default: null
   },
   department: {
     type: String,
-    required: true
+    default: null
   },
   USN: {
     type: String,
-    required: true,
+    default: null,
     unique: true
   },
   password: {

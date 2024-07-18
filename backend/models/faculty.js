@@ -1,11 +1,6 @@
 const mongoose = require('mongoose');
 
 const facultySchema = new mongoose.Schema({
-  id: {
-    type: String,
-    required: true,
-    unique: true
-  },
   name: {
     type: String,
     required: true
@@ -21,11 +16,11 @@ const facultySchema = new mongoose.Schema({
   },
   department: {
     type: String,
-    required: true
+    default: null
   },
   mentees: {
     type: [String], // Array of student IDs
-    required: true
+    default: []
   },
   password: {
     type: String,

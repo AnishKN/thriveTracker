@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -39,11 +39,11 @@ const Register = () => {
 
     axios
       .post(endpointMap[type], {
-        name,
-        email,
-        phone,
-        password: pass,
-        active: true,
+        "name": name,
+        "email": email,
+        "phone": phone,
+        "password": pass,
+        "active": true
       })
       .then((response) => {
         Swal.fire({
@@ -51,17 +51,31 @@ const Register = () => {
           title: "Success",
           text: "Account created successfully!",
         });
-        navigate(`/${type}`);
+        navigate(`/login`);
       })
       .catch((error) => {
         Swal.fire({
           icon: "error",
           title: "Error",
-          text: "Something went wrong!",
+          text: error.response.data.message,
         });
-        console.error(error);
       });
   };
+
+  // Redirect to dashboard if already logged in
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    const userType = localStorage.getItem('userType');
+    if (token) {
+      if (userType === 'admin') {
+        navigate('/admin');
+      } else if (userType === 'faculty') {
+        navigate('/faculty');
+      } else if (userType === 'student') {
+        navigate('/student');
+      }
+    }
+  }, [navigate]);
 
   return (
     <div className="flex items-center justify-center min-h-screen auth-bg py-12">

@@ -1,11 +1,11 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
-import Sidebar from "../../components/Sidebar";
-import Header from "../../components/Header";
-import Dashboard from "../routes/Dashboard";
-import AddFaculty from "../routes/AddFaculty";
-import AddDepartment from "../routes/AddDepartment";
-import AddStudent from "../routes/AddStudent";
+import Sidebar from "../../../components/Sidebar";
+import Header from "../../../components/Header";
+import Dashboard from "./routes/Dashboard";
+import AddFaculty from "./routes/AddFaculty";
+import AddDepartment from "./routes/AddDepartment";
+import AddStudent from "./routes/AddStudent";
 
 function Admin() {
   return (
