@@ -14,10 +14,12 @@ function Home() {
     <>
       <Navbar />
       <HeroSection />
-      <FeaturesSection />
-      <AboutSection />
-      <TestimonialsSection />
-      <SpecialitiesSection />
+      <div className="w-10/12 m-auto">
+        <FeaturesSection />
+        <AboutSection />
+        <TestimonialsSection />
+        <SpecialitiesSection />
+      </div>
       <NewsletterSection />
       <Footer />
     </>
