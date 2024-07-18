@@ -1,11 +1,6 @@
 const mongoose = require('mongoose');
 
 const resultSchema = new mongoose.Schema({
-  id: {
-    type: String,
-    required: true,
-    unique: true
-  },
   testName: {
     type: String,
     required: true
