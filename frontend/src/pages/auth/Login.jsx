@@ -1,6 +1,6 @@
 import React from 'react';
 import { FaGoogle } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -21,16 +21,13 @@ const Login = () => {
             <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
             <input type="password" id="password" className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Enter Password" />
           </div>
+          
           <button onClick={handleLogin} type="submit" className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Login</button>
         </form>
         <div className="mt-6 text-center">
-          <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">New Here? <span className="font-bold">Create an account</span></a>
-        </div>
-        <div className="mt-6 flex justify-center">
-          <button className="flex items-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            <FaGoogle className="w-5 h-5 mr-2" />
-            Sign in with Google
-          </button>
+          <NavLink to="/register">
+          <p className="font-medium text-indigo-600 hover:text-indigo-500">New Here? <span className="font-bold">Create an account</span></p>
+          </NavLink>
         </div>
       </div>
     </div>

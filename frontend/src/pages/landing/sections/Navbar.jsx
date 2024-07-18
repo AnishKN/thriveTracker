@@ -2,7 +2,7 @@ import React from 'react';
 
 const Navbar = () => {
   return (
-    <nav className="fixed w-full bg-white shadow-md p-4 flex justify-between items-center">
+    <nav className="fixed w-full bg-white shadow-md p-4 flex justify-between items-center z-30">
       <div className="font-bold text-xl">ThriveTracker</div>
       <div className="space-x-4">
         <a href="#hero" className="hover:text-blue-500">Home</a>
