@@ -8,7 +8,7 @@ const facultySchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique: true
+    unique: true // Ensure email is unique
   },
   phone: {
     type: String,
