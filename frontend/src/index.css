@@ -8,3 +8,10 @@
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+body{
+    font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  
+  font-style: normal;
+}

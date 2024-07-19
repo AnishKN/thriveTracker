@@ -12,7 +12,7 @@ import Footer from './sections/Footer.jsx';
 function Home() {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
       <HeroSection />
       <div className="w-10/12 m-auto">
         <FeaturesSection />

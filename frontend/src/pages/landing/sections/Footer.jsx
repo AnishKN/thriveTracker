@@ -8,14 +8,15 @@ const Footer = () => {
           <div className="mb-4 md:mb-0">
             <h3 className="text-xl font-bold">ThriveTracker</h3>
             <p className="text-gray-400">Track and manage your educational resources effortlessly.</p>
+            <p className="text-gray-400">Made with ❤️ by Anishkrishna and A R Sai Tejas</p>
           </div>
           <nav className="mb-4 md:mb-0">
             <ul className="flex flex-wrap">
-              <li className="mr-4"><a href="#features" className="hover:text-gray-300 transition duration-300">Features</a></li>
-              <li className="mr-4"><a href="#testimonials" className="hover:text-gray-300 transition duration-300">Testimonials</a></li>
-              <li className="mr-4"><a href="#specialities" className="hover:text-gray-300 transition duration-300">Specialties</a></li>
-              <li className="mr-4"><a href="#newsletter" className="hover:text-gray-300 transition duration-300">Newsletter</a></li>
-              <li className="mr-4"><a href="#contact" className="hover:text-gray-300 transition duration-300">Contact</a></li>
+              <li className="mr-4"><a href="#features" className="hover:text-gray-300 transition duration-300">Dashboard</a></li>
+              <li className="mr-4"><a href="#testimonials" className="hover:text-gray-300 transition duration-300">Features</a></li>
+              <li className="mr-4"><a href="#specialities" className="hover:text-gray-300 transition duration-300">About Us</a></li>
+              <li className="mr-4"><a href="#newsletter" className="hover:text-gray-300 transition duration-300">Testimonials</a></li>
+              
             </ul>
           </nav>
         </div>
