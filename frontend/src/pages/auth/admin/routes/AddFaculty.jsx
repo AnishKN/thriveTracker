@@ -1,6 +1,39 @@
-import React from "react";
+import React, { useState } from 'react';
+import axios from 'axios';
+import Swal from "sweetalert2";
 
 const AddFaculty = () => {
+  const [file, setFile] = useState(null);
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const handleFileUpload = () => {
+    const formData = new FormData();
+    formData.append('file', file);
+    console.log(file);
+    axios.post('http://localhost:5000/faculties/upload', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    .then(response => {
+      Swal.fire({
+        icon: "success",
+        title: "Success",
+        text: response.data,
+      });
+    })
+    .catch(error => {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: error.response.data.message,
+      });
+    });
+  };
+
   return (
     <div className="h-full flex flex-col items-center p-8">
       <div className="w-full">
@@ -17,8 +50,10 @@ const AddFaculty = () => {
             <p className="text-gray-600 mb-6">Add new faculty here</p>
           </div>
           <div className="flex space-x-4 justify-end">
+            <input type="file" onChange={handleFileChange} />
             <button
               type="button"
+              onClick={handleFileUpload}
               className="border border-gray-400 text-gray-600 px-4 py-2 rounded-md hover:bg-gray-100"
             >
               Upload CSV
