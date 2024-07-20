@@ -3,7 +3,7 @@ import { LuFileEdit } from "react-icons/lu";
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import axios from "axios";
 
-const ViewFaculty = () => {
+const ViewStudent = () => {
     const [ students,setStudents ] = useState([]);
 
     useEffect(() => {
@@ -88,5 +88,5 @@ const ViewFaculty = () => {
     )
 }
 
-export default ViewFaculty;
+export default ViewStudent;
 
