@@ -13,10 +13,11 @@ import Image03 from "../../../../images/user-36-07.jpg";
 import Image04 from "../../../../images/user-36-08.jpg";
 import Image05 from "../../../../images/user-36-09.jpg";
 import { NavLink } from "react-router-dom";
-
+import useData from "../../AllData";
 
 
 function Dashboard() {
+  const data = useData();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOpen = () => setIsOpen(true);
@@ -112,14 +113,14 @@ function Dashboard() {
         <div className="bg-white p-6 rounded-lg shadow-md flex items-center">
           <FaUserGraduate className="text-3xl text-blue-500 mr-4" />
           <div>
-            <div className="text-2xl font-bold">12</div>
+            <div className="text-2xl font-bold">{data.counts.studentCount}</div>
             <div className="text-gray-500">Your Students</div>
           </div>
         </div>
         <div className="bg-white p-6 rounded-lg shadow-md flex items-center">
           <FaChalkboardTeacher className="text-3xl text-green-500 mr-4" />
           <div>
-            <div className="text-2xl font-bold">5</div>
+            <div className="text-2xl font-bold">{data.counts.testCount}</div>
             <div className="text-gray-500">Your Active Quizzes</div>
           </div>
         </div>

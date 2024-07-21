@@ -9,12 +9,11 @@ const Sidebar = () => {
   }
 
   return (
-
-    <div className="flex h-screen flex-col justify-between border-e bg-white">
+    <div className="fixed top-0 left-0 h-screen w-64 flex flex-col justify-between border-e bg-white overflow-hidden">
       <div className="px-4 py-6">
-        <a href="#">
+        <NavLink to="">
           <img className="w-auto h-12" src="https://i.ibb.co/PtK7K0V/Frame-1-7.png" alt="" />
-        </a>
+        </NavLink>
         <ul className="mt-6 space-y-1">
           <li>
             <NavLink to="/admin">
