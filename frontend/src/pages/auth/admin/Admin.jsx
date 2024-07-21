@@ -15,7 +15,7 @@ function Admin() {
     <div>
       <div className="flex">
         <Sidebar />
-        <div className="flex-grow flex flex-col">
+        <div className="ml-64 w-full flex flex-grow flex-col">
           <Header />
           <div className="p-4">
             <Routes>

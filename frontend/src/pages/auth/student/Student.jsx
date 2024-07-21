@@ -1,9 +1,17 @@
 import React from 'react'
+import { Routes, Route } from "react-router-dom";
+import Header from './components/Header';
+import Dashboard from './routes/Dashboard';
+import Quiz from './routes/Quiz';
 
 function Student() {
   return (
     <div>
-      Student Dashboard
+      <Header />
+      <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="test" element={<Quiz />} />
+            </Routes>
     </div>
   )
 }

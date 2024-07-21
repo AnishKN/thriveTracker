@@ -1,12 +1,13 @@
+import React from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 function Header() {
   const navigate = useNavigate();
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userType");
+  const handleLogout = ()=> {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userType');
     navigate("/");
-  };
+  }
 
   return (
     <nav
@@ -16,12 +17,14 @@ function Header() {
       <div class="container px-6 py-4 mx-auto">
         <div class="lg:flex lg:items-center lg:justify-between">
           <div class="flex items-center justify-between">
-            <NavLink to="/faculty">
-              <img
-                class="w-auto h-10 sm:h-15"
-                src="https://i.ibb.co/PtK7K0V/Frame-1-7.png"
-                alt=""
-              />
+            <NavLink to="/student">
+              <div>
+                <img
+                  class="w-auto h-10 sm:h-15"
+                  src="https://i.ibb.co/PtK7K0V/Frame-1-7.png"
+                  alt=""
+                />
+              </div>
             </NavLink>
 
             <div class="flex lg:hidden">
@@ -70,19 +73,12 @@ function Header() {
             x-cloak
             class="absolute inset-x-0 z-20 w-full px-6 py-4 transition-all duration-300 ease-in-out bg-white dark:bg-gray-800 lg:mt-0 lg:p-0 lg:top-0 lg:relative lg:bg-transparent lg:w-auto lg:opacity-100 lg:translate-x-0 lg:flex lg:items-center"
           >
-            <div class="flex gap-4 flex-col -mx-6 lg:flex-row lg:items-center lg:mx-8">
-              <NavLink
-                to="/faculty"
+            <div class="flex flex-col -mx-6 lg:flex-row lg:items-center lg:mx-8">
+              <NavLink to="/student"
                 class="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
               >
                 Dashboard
-              </NavLink>
-              <NavLink
-                to="/faculty/addquiz"
-                class="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                Add Quiz
-              </NavLink>
+                </NavLink>
             </div>
 
             <div class="flex items-center mt-4 lg:mt-0">
