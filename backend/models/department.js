@@ -1,3 +1,4 @@
+// model - department.js
 const mongoose = require("mongoose");
 
 const departmentSchema = new mongoose.Schema({
@@ -15,6 +16,7 @@ const departmentSchema = new mongoose.Schema({
     },
 });
 
-const Department = mongoose.model("department", departmentSchema);
+departmentSchema.index({ name: 1, hodName: 1 }, { unique: true });
 
+const Department = mongoose.model("department", departmentSchema);
 module.exports = Department;

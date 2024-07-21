@@ -1,6 +1,43 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const AddDepartment = () => {
+  const [ name,setName ] = useState("");
+  const [ hodName,sethodName ] = useState("");
+
+  const handleAdd = () => {
+    axios
+      .request({
+        method: "post",
+        maxBodyLength: Infinity,
+        url: "http://localhost:5000/department",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: JSON.stringify({
+          name: name,
+          hodName: hodName,
+        }),
+      })
+      .then((response) => {
+        console.log(JSON.stringify(response.data));
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: response.data.message,
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+        Swal.fire({
+          icon: "warning",
+          title: "warning",
+          text: error.response.data.message,
+        });
+      });
+  };
+
   return (
     <div className="h-full flex flex-col items-center p-8">
       <div className="w-full">
@@ -31,26 +68,31 @@ const AddDepartment = () => {
             </button>
           </div>
         </div>
-        <form className="space-y-4">
+        <div className="space-y-4">
           <div className="flex justify-between items-center">
             <label className="block text-gray-700 w-1/3">Department Name</label>
             <input
               type="text"
+              value={name}
+              onChange={(e)=> setName(e.target.value)}
               placeholder="Enter Name"
               className="border border-gray-300 rounded-md p-2 w-2/3"
             />
           </div>
           <div className="flex justify-between items-center">
-            <label className="block text-gray-700 w-1/3">Department ID</label>
+            <label className="block text-gray-700 w-1/3">Head of the Department</label>
             <input
               type="text"
-              placeholder="Enter ID"
+              placeholder="Enter HOD Name"
+              value={hodName}
+              onChange={(e)=> sethodName(e.target.value)}
               className="border border-gray-300 rounded-md p-2 w-2/3"
             />
           </div>
           <div className="flex justify-start space-x-4 mt-6">
             <button
               type="submit"
+              onClick={handleAdd}
               className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-700"
             >
               Add
@@ -62,7 +104,7 @@ const AddDepartment = () => {
               Cancel
             </button>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );

@@ -8,6 +8,7 @@ import AddDepartment from "./routes/AddDepartment";
 import AddStudent from "./routes/AddStudent";
 import ViewFaculty from "./routes/ViewFaculty";
 import ViewStudent from "./routes/ViewStudent"
+import ViewDepartment from "./routes/ViewDepartment";
 
 function Admin() {
   return (
@@ -19,9 +20,13 @@ function Admin() {
           <div className="p-4">
             <Routes>
               <Route path="/" element={<Dashboard />} />
+
               <Route path="addFaculty" element={<AddFaculty />} />
               <Route path="viewFaculty" element={<ViewFaculty />} />
+
               <Route path="addDepartment" element={<AddDepartment />} />
+              <Route path="viewDepartment" element={<ViewDepartment />} />
+
               <Route path="addStudent" element={<AddStudent />} />
               <Route path="viewStudent" element={<ViewStudent />} />
             </Routes>

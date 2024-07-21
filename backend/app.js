@@ -12,6 +12,7 @@ const studentRoutes = require('./routes/student');
 const testRoutes = require('./routes/test');
 const resultRoutes = require('./routes/result');
 const authRoutes = require('./routes/auth');
+const departmentRoutes = require('./routes/department');
 
 // Initialize express app
 const app = express();
@@ -32,6 +33,7 @@ app.use('/students', studentRoutes);
 app.use('/tests', testRoutes);
 app.use('/results', resultRoutes);
 app.use('/auth', authRoutes);
+app.use('/department', departmentRoutes);
 
 // Default route
 app.get('/', (req, res) => {
