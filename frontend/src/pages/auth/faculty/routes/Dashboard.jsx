@@ -12,6 +12,8 @@ import Image02 from "../../../../images/user-36-06.jpg";
 import Image03 from "../../../../images/user-36-07.jpg";
 import Image04 from "../../../../images/user-36-08.jpg";
 import Image05 from "../../../../images/user-36-09.jpg";
+import { NavLink } from "react-router-dom";
+
 
 
 function Dashboard() {
@@ -334,6 +336,7 @@ function Dashboard() {
             </button>
           </div>
           <div className="space-y-4">
+          <NavLink to="/faculty/quiz1">
             <div className="p-4 bg-blue-100 rounded-lg flex justify-between items-center">
               <div>
                 <div className="text-lg font-bold">IQ Test - 1</div>
@@ -343,6 +346,7 @@ function Dashboard() {
               </div>
               <div className="text-green-500">Active</div>
             </div>
+            </NavLink>
             <div className="p-4 bg-blue-100 rounded-lg flex justify-between items-center">
               <div>
                 <div className="text-lg font-bold">EQ Test - 1</div>
@@ -364,8 +368,8 @@ function Dashboard() {
           </div>
         </div>
       </div>
-
       
+
     </div>
   );
 }

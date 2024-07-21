@@ -6,7 +6,7 @@ function Header() {
     <div class="container px-6 py-4 mx-auto">
         <div class="lg:flex lg:items-center lg:justify-between">
             <div class="flex items-center justify-between">
-                <a href="#">
+                <a href="/faculty">
                     <img class="w-auto h-10 sm:h-15" src="https://i.ibb.co/PtK7K0V/Frame-1-7.png" alt=""/>
                 </a>
 
@@ -29,7 +29,7 @@ function Header() {
                 <div class="flex flex-col -mx-6 lg:flex-row lg:items-center lg:mx-8">
                     <a href="#" class="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Dashboard</a>
                     <a href="#" class="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">View Students</a>
-                    <a href="#" class="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Quiz</a>
+                    <a href="/faculty/addquiz" class="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Quiz</a>
                     <a href="#" class="px-3 py-2 mx-3 mt-2 text-gray-700 transition-colors duration-300 transform rounded-md lg:mt-0 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Reports</a>
                 </div>
 
