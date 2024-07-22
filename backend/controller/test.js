@@ -18,19 +18,17 @@ exports.getTestById = async (req, res) => {
 // Create a test
 exports.createTest = async (req, res) => {
   const test = new Test({
-    id: req.body.id,
-    name: req.body.name,
-    type: req.body.type,
-    instructions: req.body.instructions,
-    payload: req.body.payload,
+    facultyName: req.body.facultyName,
+    allowedStudents: req.body.allowedStudents,
+    testData: req.body.testData,
     active: req.body.active
   });
 
   try {
     const newTest = await test.save();
-    res.status(201).json(newTest);
+    res.status(201).json({ message: "Successfully added!", data: newTest });
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(200).json({ message: "Saved with possible issues", error: err.message });
   }
 };
 

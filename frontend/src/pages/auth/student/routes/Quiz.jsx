@@ -6,7 +6,8 @@ import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
-const json = {
+const json = 
+{
   title: "IQ Test 2",
   description: "This is a IQ Test",
   logoPosition: "center",
