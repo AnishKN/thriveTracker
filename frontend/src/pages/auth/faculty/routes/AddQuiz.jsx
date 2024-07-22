@@ -3,6 +3,9 @@ import Loader from "../../../../components/Loader";
 import { SurveyCreatorComponent, SurveyCreator } from "survey-creator-react";
 import "survey-core/defaultV2.min.css";
 import "survey-creator-core/survey-creator-core.min.css";
+import useData from "../../AllData";
+import axios from 'axios';
+import Swal from "sweetalert2";
 
 const creatorOptions = {
   showLogicTab: false,
@@ -12,24 +15,71 @@ const creatorOptions = {
 function AddQuiz() {
   const [loading, setLoading] = useState(true);
   const [creator, setCreator] = useState(null);
+  const data = useData();
 
   useEffect(() => {
-    // Initialize the SurveyCreator instance and set it to state
     const surveyCreator = new SurveyCreator(creatorOptions);
     setCreator(surveyCreator);
 
-    // Simulate loading delay
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 1000);
+    }, 500);
 
     return () => clearTimeout(timer);
   }, []);
 
-  // Function to log the survey JSON to the console
   const handleJSON = () => {
+    let facultyName = "";
+    let allowedStudents = "";
+  
     if (creator) {
-      console.log(JSON.stringify(creator.JSON, null, 2));
+      const faculty_id = localStorage.getItem('id');
+      const faculties = data.faculty;
+  
+      faculties.forEach((faculty) => {
+        if (faculty._id == faculty_id) {
+          facultyName = faculty.name;
+          allowedStudents = faculty.mentees.toString();
+        }
+      });
+  
+      const testData = JSON.stringify(creator.JSON, null, 2);
+      console.log("Payload:", {
+        facultyName: facultyName,
+        allowedStudents: allowedStudents,
+        testData: testData,
+        "active": true
+      });
+  
+      axios.request({
+        method: 'post',
+        maxBodyLength: Infinity,
+        url: 'http://localhost:5000/tests',
+        headers: { 
+          'Content-Type': 'application/json'
+        },
+        data: {
+          facultyName: facultyName,
+          allowedStudents: allowedStudents,
+          testData: testData,
+          "active": true
+        }
+      })
+      .then((response) => {
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: response.data.message,
+        });
+      })
+      .catch((error) => {
+        console.log("Request Error:", error.response.data); // Log error response data
+        Swal.fire({
+          icon: "warning",
+          title: "Warning",
+          text: error.response.data.message, // Show detailed error message
+        });
+      });
     }
   };
 
