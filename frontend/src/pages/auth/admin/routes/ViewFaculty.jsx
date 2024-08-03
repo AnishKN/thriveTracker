@@ -4,13 +4,14 @@ import { MdOutlineDeleteOutline } from "react-icons/md";
 import axios from "axios";
 
 const ViewFaculty = () => {
+    const BASE_URL = import.meta.env.VITE_BASE_URL;
     const [ faculties,setFaculties ] = useState([]);
 
     useEffect(() => {
         axios.request({
             method: 'get',
             maxBodyLength: Infinity,
-            url: 'http://localhost:5000/faculties',
+            url: `${BASE_URL}faculties`,
             headers: { }
           })
         .then((response) => {

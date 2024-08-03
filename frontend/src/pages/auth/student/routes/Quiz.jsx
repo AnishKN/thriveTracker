@@ -1,112 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Model } from "survey-core";
 import { Survey } from "survey-react-ui";
 import "survey-core/defaultV2.min.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
-
-const json = 
-{
-  title: "IQ Test 2",
-  description: "This is a IQ Test",
-  logoPosition: "center",
-  pages: [
-    {
-      name: "page1",
-      elements: [
-        {
-          type: "radiogroup",
-          name: "You regularly make new friends.",
-          choices: [
-            "Fully Agree",
-            "Moderately Agree",
-            "Somewhat Agree",
-            "Neutral",
-            "Somewhat Disagree",
-            "Moderately Disagree",
-            "Fully Disagree",
-          ],
-        },
-        {
-          type: "radiogroup",
-          name: "question1",
-          title:
-            "Complex and novel ideas excite you more than simple and straightforward ones.\r\n",
-          choices: [
-            "Fully Agree",
-            "Moderately Agree",
-            "Somewhat Agree",
-            "Neutral",
-            "Somewhat Disagree",
-            "Moderately Disagree",
-            "Fully Disagree",
-          ],
-        },
-        {
-          type: "radiogroup",
-          name: "question2",
-          title:
-            "You usually feel more persuaded by what resonates emotionally with you than by factual arguments.\r\n",
-          choices: [
-            "Fully Agree",
-            "Moderately Agree",
-            "Somewhat Agree",
-            "Neutral",
-            "Somewhat Disagree",
-            "Moderately Disagree",
-            "Fully Disagree",
-          ],
-        },
-        {
-          type: "radiogroup",
-          name: "question3",
-          title:
-            "Your living and working spaces are clean and organized.\r\n\r\n",
-          choices: [
-            "Fully Agree",
-            "Moderately Agree",
-            "Somewhat Agree",
-            "Neutral",
-            "Somewhat Disagree",
-            "Moderately Disagree",
-            "Fully Disagree",
-          ],
-        },
-        {
-          type: "radiogroup",
-          name: "question4",
-          title: "You usually stay calm, even under a lot of pressure.\n",
-          choices: [
-            "Fully Agree",
-            "Moderately Agree",
-            "Somewhat Agree",
-            "Neutral",
-            "Somewhat Disagree",
-            "Moderately Disagree",
-            "Fully Disagree",
-          ],
-        },
-        {
-          type: "radiogroup",
-          name: "question5",
-          title:
-            "You find the idea of networking or promoting yourself to strangers very daunting.\n",
-          choices: [
-            "Fully Agree",
-            "Moderately Agree",
-            "Somewhat Agree",
-            "Neutral",
-            "Somewhat Disagree",
-            "Moderately Disagree",
-            "Fully Disagree",
-          ],
-        },
-      ],
-    },
-  ],
-  cookieName: "",
-};
 
 const exitFullscreen = () => {
   if (document.exitFullscreen) {
@@ -121,13 +19,27 @@ const exitFullscreen = () => {
 };
 
 function Quiz() {
+  const { id } = useParams(); // Get the ID from the URL
   const navigate = useNavigate();
-  const survey = new Model(json);
-  survey.onComplete.add((sender, options) => {
-    console.log(JSON.stringify(sender.data, null, 3));
-    exitFullscreen();
-    navigate("/student");
-  });
+  const [surveyData, setSurveyData] = useState(null);
+
+  useEffect(() => {
+    const fetchTestData = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/tests/${id}`);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        setSurveyData(JSON.parse(data.testData));
+      } catch (error) {
+        console.error("Error fetching test data:", error);
+        // Optionally, display an error message or redirect
+      }
+    };
+  
+    fetchTestData();
+  }, [id]);
 
   useEffect(() => {
     const MySwal = withReactContent(Swal);
@@ -180,6 +92,17 @@ function Quiz() {
       document.removeEventListener("MSFullscreenChange", handleFullscreenChange);
     };
   }, []);
+
+  if (!surveyData) {
+    return <div>Loading...</div>; // Show a loading message until the survey data is fetched
+  }
+
+  const survey = new Model(surveyData);
+  survey.onComplete.add((sender, options) => {
+    console.log(JSON.stringify(sender.data, null, 3));
+    exitFullscreen();
+    navigate("/student");
+  });
 
   return (
     <div className="min-h-screen">

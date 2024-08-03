@@ -28,9 +28,16 @@ exports.createTest = async (req, res) => {
     const newTest = await test.save();
     res.status(201).json({ message: "Successfully added!", data: newTest });
   } catch (err) {
-    res.status(200).json({ message: "Saved with possible issues", error: err.message });
+    if (err.name === 'ValidationError') {
+      // Handle validation errors
+      res.status(400).json({ message: "Validation error", error: err.message });
+    } else {
+      // Handle other errors
+      res.status(500).json({ message: "Internal server error", error: err.message });
+    }
   }
 };
+
 
 // Update a test
 exports.updateTest = async (req, res) => {

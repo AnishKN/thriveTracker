@@ -4,6 +4,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 const Login = () => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,13 +16,13 @@ const Login = () => {
     let loginUrl = "";
     switch (userType) {
       case "admin":
-        loginUrl = "http://localhost:5000/auth/admin/login";
+        loginUrl = `${BASE_URL}auth/admin/login`;
         break;
       case "faculty":
-        loginUrl = "http://localhost:5000/auth/faculty/login";
+        loginUrl = `${BASE_URL}auth/faculty/login`;
         break;
       case "student":
-        loginUrl = "http://localhost:5000/auth/student/login";
+        loginUrl = `${BASE_URL}auth/student/login`;
         break;
       default:
         Swal.fire({

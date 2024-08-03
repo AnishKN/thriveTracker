@@ -4,6 +4,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 const Register = () => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -32,9 +33,9 @@ const Register = () => {
     }
 
     const endpointMap = {
-      admin: "http://localhost:5000/auth/admin/register",
-      faculty: "http://localhost:5000/auth/faculty/register",
-      student: "http://localhost:5000/auth/student/register",
+      admin: `${BASE_URL}auth/admin/register`,
+      faculty: `${BASE_URL}auth/faculty/register`,
+      student: `${BASE_URL}auth/student/register`,
     };
 
     axios

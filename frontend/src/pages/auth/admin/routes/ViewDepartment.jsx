@@ -4,6 +4,7 @@ import { MdOutlineDeleteOutline } from "react-icons/md";
 import axios from "axios";
 
 const ViewDepartment = () => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
   const [departments, setDepartments] = useState([]);
 
   useEffect(() => {
@@ -11,7 +12,7 @@ const ViewDepartment = () => {
       .request({
         method: "get",
         maxBodyLength: Infinity,
-        url: "http://localhost:5000/department",
+        url: `${BASE_URL}department`,
         headers: {},
       })
       .then((response) => {
