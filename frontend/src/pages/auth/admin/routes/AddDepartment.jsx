@@ -3,6 +3,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 const AddDepartment = () => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
   const [ name,setName ] = useState("");
   const [ hodName,sethodName ] = useState("");
 
@@ -11,7 +12,7 @@ const AddDepartment = () => {
       .request({
         method: "post",
         maxBodyLength: Infinity,
-        url: "http://localhost:5000/department",
+        url: `${BASE_URL}department`,
         headers: {
           "Content-Type": "application/json",
         },

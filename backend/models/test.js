@@ -6,8 +6,7 @@ const testSchema = new mongoose.Schema({
     required: true,
   },
   allowedStudents: {
-    type: String,
-    // required: true,
+    type: Number,
     default: null,
   },
   testData: {

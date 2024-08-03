@@ -17,15 +17,17 @@ const useData = () => {
     }
   });
 
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
+
   useEffect(() => {
     const fetchCounts = async () => {
       try {
         const [adminResponse, facultyResponse, studentResponse, testResponse, departmentResponse] = await Promise.all([
-          axios.get('http://localhost:5000/admins'),
-          axios.get('http://localhost:5000/faculties'),
-          axios.get('http://localhost:5000/students'),
-          axios.get('http://localhost:5000/tests'),
-          axios.get('http://localhost:5000/department')
+          axios.get(`${BASE_URL}admins`),
+          axios.get(`${BASE_URL}faculties`),
+          axios.get(`${BASE_URL}students`),
+          axios.get(`${BASE_URL}tests`),
+          axios.get(`${BASE_URL}department`)
         ]);
 
         setData({

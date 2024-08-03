@@ -3,6 +3,7 @@ import axios from 'axios';
 import Swal from "sweetalert2";
 
 const AddFaculty = () => {
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
   const [file, setFile] = useState(null);
 
   const [name, setName] = useState("");
@@ -20,7 +21,7 @@ const AddFaculty = () => {
     const formData = new FormData();
     formData.append('file', file);
     console.log(file);
-    axios.post('http://localhost:5000/faculties/upload', formData, {
+    axios.post(`${BASE_URL}faculties/upload`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -46,7 +47,7 @@ const AddFaculty = () => {
     axios.request({
       method: 'post',
       maxBodyLength: Infinity,
-      url: 'http://localhost:5000/faculties',
+      url: `${BASE_URL}faculties`,
       headers: { 
         'Content-Type': 'application/json'
       },

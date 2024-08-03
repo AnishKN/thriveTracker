@@ -4,13 +4,14 @@ import { MdOutlineDeleteOutline } from "react-icons/md";
 import axios from "axios";
 
 const ViewStudent = () => {
+    const BASE_URL = import.meta.env.VITE_BASE_URL;
     const [ students,setStudents ] = useState([]);
 
     useEffect(() => {
         axios.request({
             method: 'get',
             maxBodyLength: Infinity,
-            url: 'http://localhost:5000/students',
+            url: `${BASE_URL}students`,
             headers: { }
           })
         .then((response) => {
