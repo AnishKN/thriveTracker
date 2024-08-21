@@ -5,45 +5,18 @@ const resultSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  userId: {
+  userName: {
     type: String,
     required: true
   },
-  facultyId: {
-    type: String,
-    required: true
-  },
-  testType: {
+  facultyName: {
     type: String,
     required: true
   },
   testPayload: {
-    type: [
-      {
-        question: {
-          type: String,
-          required: true
-        },
-        options: {
-          type: [String],
-          required: true
-        },
-        correctOption: {
-          type: String,
-          required: true
-        },
-        point: {
-          type: Number,
-          required: true
-        }
-      }
-    ],
+    type: String,
     required: true
   },
-  score: {
-    type: Number,
-    required: true
-  }
 });
 
 const Result = mongoose.model('Result', resultSchema);

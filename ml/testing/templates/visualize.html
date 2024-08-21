@@ -1,0 +1,14 @@
+<!doctype html>
+<html>
+<head>
+    <title>Visualizations</title>
+</head>
+<body>
+    <h1>Visualizations</h1>
+    {% for plot in plots %}
+        <h2>{{ plot.title }}</h2>
+        <img src="data:image/png;base64,{{ plot.url }}" alt="{{ plot.title }}">
+    {% endfor %}
+    <a href="/">Home</a>
+</body>
+</html>
