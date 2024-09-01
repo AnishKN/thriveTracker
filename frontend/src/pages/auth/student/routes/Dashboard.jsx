@@ -11,9 +11,10 @@ import useData from "../../AllData";
 
 function Dashboard() {
   const BASE_URL = import.meta.env.VITE_BASE_URL;
+  const data = useData();
+
   const [tests, setTests] = useState([]);
   const [studentName, setStudentName] = useState("");
-  const data = useData();
 
   useEffect(() => {
     // Fetching student name
@@ -52,29 +53,29 @@ function Dashboard() {
         <div className="bg-white p-6 rounded-lg shadow-md flex items-center">
           <FaUserGraduate className="text-3xl text-blue-500 mr-4" />
           <div>
-            <div className="text-2xl font-bold">12</div>
-            <div className="text-gray-500">Total Faculty</div>
+            <div className="text-2xl font-bold">{data.counts.studentCount}</div>
+            <div className="text-gray-500">Your Students</div>
           </div>
         </div>
         <div className="bg-white p-6 rounded-lg shadow-md flex items-center">
           <FaChalkboardTeacher className="text-3xl text-green-500 mr-4" />
           <div>
-            <div className="text-2xl font-bold">5</div>
-            <div className="text-gray-500">Your Active Quizzes</div>
+            <div className="text-2xl font-bold">{data.counts.facultyCount}</div>
+            <div className="text-gray-500">Total Faculties</div>
           </div>
         </div>
         <div className="bg-white p-6 rounded-lg shadow-md flex items-center">
           <FaBuilding className="text-3xl text-yellow-500 mr-4" />
           <div>
-            <div className="text-2xl font-bold">10</div>
-            <div className="text-gray-500">Announcements</div>
+            <div className="text-2xl font-bold">{data.counts.departmentCount}</div>
+            <div className="text-gray-500">Departments</div>
           </div>
         </div>
         <div className="bg-white p-6 rounded-lg shadow-md flex items-center">
           <FaClipboardList className="text-3xl text-red-500 mr-4" />
           <div>
-            <div className="text-2xl font-bold">10</div>
-            <div className="text-gray-500">Tasks</div>
+            <div className="text-2xl font-bold">{data.counts.testCount}</div>
+            <div className="text-gray-500">Active Quizzes</div>
           </div>
         </div>
       </div>
@@ -88,21 +89,23 @@ function Dashboard() {
               <p className="text-gray-500">No active quizzes available.</p>
             </div>
           ) : (
-            tests.map((test) => (
+            tests.slice().reverse().map((test,index) => {
+              const testData = JSON.parse(test.testData);
+              return(
               <NavLink key={test._id} to={`test/${test._id}`}>
                 <div className="m-2 p-12 bg-blue-800 rounded-lg flex justify-between items-center">
                   <div>
                     <div className="text-lg font-bold text-white">
-                      {test.facultyName}
+                    {testData.title || "Quiz - " + (index + 1)}
                     </div>
                     <div className="text-gray-100">
-                      Expires at: 02-07-2024 12:00 AM
+                      Posted by : {test.facultyName}
                     </div>
                   </div>
                   <div className="text-green-50 font-bold">Active</div>
                 </div>
               </NavLink>
-            ))
+            )})
           )}
         </div>
       </div>
