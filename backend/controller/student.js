@@ -18,13 +18,11 @@ exports.getStudentById = async (req, res) => {
 // Create a student
 exports.createStudent = async (req, res) => {
   const student = new Student({
-    id: req.body.id,
     name: req.body.name,
     email: req.body.email,
     phone: req.body.phone,
-    mentor: req.body.mentor,
     department: req.body.department,
-    USN: req.body.USN,
+    USN: req.body.usn,
     password: req.body.password,
     active: req.body.active
   });
@@ -74,7 +72,10 @@ exports.updateStudent = async (req, res) => {
 // Delete a student
 exports.deleteStudent = async (req, res) => {
   try {
-    await res.student.remove();
+    const student = await Student.findByIdAndDelete(req.params.id);
+    if (!student) {
+      return res.status(404).json({ message: 'Cannot find student' });
+    }
     res.json({ message: 'Deleted Student' });
   } catch (err) {
     res.status(500).json({ message: err.message });

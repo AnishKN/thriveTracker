@@ -1,11 +1,11 @@
 import pandas as pd
 
-def analyze_dropout(data):
-    df = pd.DataFrame(data)
-    
-    # Example dropout analysis: Calculate dropout rate based on employment status
-    dropout_count = df[df['employment_status'] == 'Unemployed'].shape[0]
-    total_count = df.shape[0]
-    dropout_percentage = (dropout_count / total_count) * 100
-    
-    return {'dropout_percentage': dropout_percentage}
+def calculate_dropout_percentage(df):
+    # Ensure that the column exists before processing
+    if 'What is your current employment status?' in df.columns:
+        total_students = len(df)
+        dropout_students = df[df['What is your current employment status?'] == 'Unemployed']
+        dropout_percentage = (len(dropout_students) / total_students) * 100
+        return dropout_percentage
+    else:
+        return 0  # Return 0 if the column is not present

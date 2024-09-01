@@ -3,6 +3,7 @@ import DataTable from 'react-data-table-component';
 import axios from 'axios';  
 import { saveAs } from 'file-saver'; // Import file-saver
 import 'tailwindcss/tailwind.css'; // Ensure Tailwind CSS is imported
+import { NavLink } from 'react-router-dom';
 
 const ViewResults = () => {
   const [data, setData] = useState([]);
@@ -171,6 +172,7 @@ const ViewResults = () => {
     }
   ];
 
+
   return (
     <div className="p-4">
       <button
@@ -179,6 +181,13 @@ const ViewResults = () => {
       >
         Export to CSV
       </button>
+      <NavLink to="/admin/predictDashboard">
+        <button
+          className="mx-4 bg-black text-white px-4 py-2 rounded mb-4 hover:bg-gray-600"
+        >
+          Predict Behabiours
+        </button>
+      </NavLink>
       <DataTable
         columns={columns}
         data={data}

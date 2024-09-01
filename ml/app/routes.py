@@ -1,21 +1,37 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint
+import numpy as np 
+from scipy import stats
 import pandas as pd
-from .eda import perform_eda, calculate_dropout_percentage
+import seaborn as sns
+import plotly.io as pio
+import plotly.express as px
+import plotly.graph_objects as go
+import plotly.express as pex
+from plotly.subplots import make_subplots
+from plotly.offline import init_notebook_mode, iplot
+init_notebook_mode(connected=True)
 
-bp = Blueprint('routes', __name__)
+import warnings
+warnings.filterwarnings('ignore')
 
-@bp.route('/analyze-eda', methods=['POST'])
-def analyze_eda():
-    # Directly use the request.json, which should be a list of dictionaries
-    data = request.json
-    # Convert to DataFrame
-    df = pd.DataFrame(data)
+bp = Blueprint('eda', __name__)
+
+
+@bp.route('/performEda', methods=['POST'])
+def performEda():
+    data = pd.read_csv(f'/kaggle/input/students-performance-in-exams/StudentsPerformance.csv')
+
+    df_extra = []
+    for i in range(9):
+        df = pd.read_csv(f'/kaggle/input/more-exam-data/exams ({i+1}).csv')
+        df_extra.append(df)
+        
+    data_total = pd.concat([data, pd.concat(df_extra)], axis=0)
+
+    data = data_total.copy()
+    print(data.info())
     
-    # Perform EDA and calculate dropout
-    eda_results = perform_eda(df)
-    dropout_percentage = calculate_dropout_percentage(df)
-    
-    return jsonify({
-        'eda_results': eda_results,
-        'dropout_percentage': dropout_percentage
-    })
+    print(data.head())
+
+
+performEda()

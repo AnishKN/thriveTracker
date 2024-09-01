@@ -5,7 +5,7 @@ import Dashboard from "./routes/Dashboard";
 import AddQuiz from "./routes/AddQuiz";
 import ViewResults from "./routes/ViewResults";
 
-function Faculty() {
+function Faculty() {  
   return (
     <div>
       <div className="flex-grow flex flex-col">

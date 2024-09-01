@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { useNavigate } from 'react-router-dom';
 
 const AddDepartment = () => {
+  const navigate = useNavigate();
   const BASE_URL = import.meta.env.VITE_BASE_URL;
   const [ name,setName ] = useState("");
   const [ hodName,sethodName ] = useState("");
@@ -28,6 +30,7 @@ const AddDepartment = () => {
           title: "Success",
           text: response.data.message,
         });
+        navigate("/admin/viewDepartment");
       })
       .catch((error) => {
         console.log(error);
@@ -54,20 +57,6 @@ const AddDepartment = () => {
             </h1>
             <p className="text-gray-600 mb-6">Add new Department here</p>
           </div>
-          <div className="flex space-x-4 justify-end">
-            <button
-              type="button"
-              className="border border-gray-400 text-gray-600 px-4 py-2 rounded-md hover:bg-gray-100"
-            >
-              Upload CSV
-            </button>
-            <button
-              type="button"
-              className="border border-gray-400 text-gray-600 px-4 py-2 rounded-md hover:bg-gray-100"
-            >
-              Export to Excel file
-            </button>
-          </div>
         </div>
         <div className="space-y-4">
           <div className="flex justify-between items-center">
@@ -90,19 +79,13 @@ const AddDepartment = () => {
               className="border border-gray-300 rounded-md p-2 w-2/3"
             />
           </div>
-          <div className="flex justify-start space-x-4 mt-6">
+          <div className="flex justify-end space-x-4 mt-6">
             <button
               type="submit"
               onClick={handleAdd}
-              className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-700"
+              className="bg-black my-8 text-white px-4 py-2 rounded-md hover:bg-gray-700"
             >
               Add
-            </button>
-            <button
-              type="button"
-              className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400"
-            >
-              Cancel
             </button>
           </div>
         </div>

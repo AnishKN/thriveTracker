@@ -1,6 +1,94 @@
-import React from "react";
+import React, { useState } from "react";
+import axios from "axios";
+import Swal from "sweetalert2";
+import { useNavigate } from 'react-router-dom';
+import useData from "../../AllData.js";
 
-const AddFaculty = () => {
+const AddStudent = () => {
+  const data = useData();
+  const navigate = useNavigate();
+  const BASE_URL = import.meta.env.VITE_BASE_URL;
+  const [usn, setUsn] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [department, setDepartment] = useState("");
+  const [password, setPassword] = useState("");
+
+
+  const departments = data.departments;
+  console.log(departments);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Validation
+    if (!usn || !name || !email || !phone || !department || !password) {
+      Swal.fire({
+        icon: "warning",
+        title: "Validation Error",
+        text: "All fields are required.",
+      });
+      return;
+    }
+    if (phone.length < 10) {
+      Swal.fire({
+        icon: "warning",
+        title: "Validation Error",
+        text: "Enter a valid phone number.",
+      });
+      return;
+    }
+    if (password.length < 8) {
+      Swal.fire({
+        icon: "warning",
+        title: "Validation Error",
+        text: "Password is too small.",
+      });
+      return;
+    }
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      Swal.fire({
+        icon: "warning",
+        title: "Validation Error",
+        text: "Enter a valid email address.",
+      });
+      return;
+    }
+
+    try {
+      await axios.post(`${BASE_URL}students`, {
+        usn,
+        name,
+        email,
+        phone,
+        department,
+        password,
+        active: true
+      });
+      Swal.fire({
+        icon: "success",
+        title: "Success",
+        text: "Student added successfully.",
+      });
+      // Clear form fields
+      setUsn("");
+      setName("");
+      setEmail("");
+      setPhone("");
+      setDepartment("");
+      setPassword("");
+      navigate("/admin/viewStudent");
+    } catch (error) {
+      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: error || "An error occurred while adding the student.",
+      });
+    }
+  };
+
   return (
     <div className="h-full flex flex-col items-center p-8">
       <div className="w-full">
@@ -14,29 +102,17 @@ const AddFaculty = () => {
             <h1 className="text-3xl font-bold text-gray-900 mb-2">
               Add Student
             </h1>
-            <p className="text-gray-600 mb-6">Add new Student here</p>
-          </div>
-          <div className="flex space-x-4 justify-end">
-            <button
-              type="button"
-              className="border border-gray-400 text-gray-600 px-4 py-2 rounded-md hover:bg-gray-100"
-            >
-              Upload CSV
-            </button>
-            <button
-              type="button"
-              className="border border-gray-400 text-gray-600 px-4 py-2 rounded-md hover:bg-gray-100"
-            >
-              Export to Excel file
-            </button>
+            <p className="text-gray-600 mb-6">Add new student here</p>
           </div>
         </div>
-        <form className="space-y-4">
-        <div className="flex justify-between items-center">
-            <label className="block text-gray-700 w-1/3">ID</label>
+        <form className="space-y-4" onSubmit={handleSubmit}>
+          <div className="flex justify-between items-center">
+            <label className="block text-gray-700 w-1/3">USN</label>
             <input
               type="text"
-              placeholder="Enter Name"
+              placeholder="Enter USN"
+              value={usn}
+              onChange={(e) => setUsn(e.target.value)}
               className="border border-gray-300 rounded-md p-2 w-2/3"
             />
           </div>
@@ -45,6 +121,8 @@ const AddFaculty = () => {
             <input
               type="text"
               placeholder="Enter Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               className="border border-gray-300 rounded-md p-2 w-2/3"
             />
           </div>
@@ -53,6 +131,8 @@ const AddFaculty = () => {
             <input
               type="email"
               placeholder="Enter Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="border border-gray-300 rounded-md p-2 w-2/3"
             />
           </div>
@@ -61,45 +141,40 @@ const AddFaculty = () => {
             <input
               type="tel"
               placeholder="Enter Phone no."
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
               className="border border-gray-300 rounded-md p-2 w-2/3"
             />
           </div>
           <div className="flex justify-between items-center">
             <label className="block text-gray-700 w-1/3">Department</label>
-            <input
-              type="text"
-              placeholder="Choose Department"
+            <select
+              value={department}
+              onChange={(e) => setDepartment(e.target.value)}
               className="border border-gray-300 rounded-md p-2 w-2/3"
-            />
-          </div>
-          <div className="flex justify-between items-center">
-            <label className="block text-gray-700 w-1/3">Status</label>
-            <input
-              type="text"
-              placeholder="Set Status"
-              className="border border-gray-300 rounded-md p-2 w-2/3"
-            />
+            >
+              <option value="">Select Department</option>
+              {departments.map((dept) => (
+                <option key={dept.name} value={dept.name}>{dept.name}</option>
+              ))}
+            </select>
           </div>
           <div className="flex justify-between items-center">
             <label className="block text-gray-700 w-1/3">Password</label>
             <input
               type="password"
               placeholder="Enter Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="border border-gray-300 rounded-md p-2 w-2/3"
             />
           </div>
-          <div className="flex justify-start space-x-4 mt-6">
+          <div className="flex justify-end space-x-4 mt-6">
             <button
               type="submit"
-              className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-700"
+              className="bg-black my-8 text-white px-4 py-2 rounded-md hover:bg-gray-700"
             >
               Add
-            </button>
-            <button
-              type="button"
-              className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400"
-            >
-              Cancel
             </button>
           </div>
         </form>
@@ -108,4 +183,4 @@ const AddFaculty = () => {
   );
 };
 
-export default AddFaculty;
+export default AddStudent;

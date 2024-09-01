@@ -1,0 +1,63 @@
+const [file, setFile] = useState(null);
+const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+const handleFileUpload = () => {
+    const formData = new FormData();
+    formData.append('file', file);
+    console.log(file);
+    axios.post(`${BASE_URL}faculties/upload`, formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    })
+    .then(response => {
+      Swal.fire({
+        icon: "success",
+        title: "Success",
+        text: response.data,
+      });
+    })
+    .catch(error => {
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: error.response.data.message,
+      });
+    });
+  };
+
+
+
+@bp.route('/analyze-eda', methods=['POST'])
+def analyze_eda():
+    # Get the JSON data from the request
+    data = request.get_json()
+    
+    # Convert the list of data to a DataFrame
+    df = pd.DataFrame(data)
+    
+    # Extract and process the 'testPayload' field
+    df['testPayload'] = df['testPayload'].apply(json.loads)
+    
+    # Normalize 'testPayload' to separate columns
+    payload_df = pd.json_normalize(df['testPayload'])
+    
+    # Combine the normalized payload with the main DataFrame
+    combined_df = pd.concat([df.drop(columns=['testPayload']), payload_df], axis=1)
+    
+    # Perform EDA: Here we calculate basic statistics
+    data_summary = combined_df.describe(include='all').to_dict()
+    
+    # Calculate value counts for each categorical column
+    value_counts = {col: combined_df[col].value_counts().to_dict() 
+                    for col in combined_df.columns if combined_df[col].dtype == 'object'}
+    
+    result = {
+        'count': combined_df.shape[0],
+        'data_summary': data_summary,
+        'value_counts': value_counts
+    }
+    
+    # Return the result as JSON
+    return jsonify(result)
