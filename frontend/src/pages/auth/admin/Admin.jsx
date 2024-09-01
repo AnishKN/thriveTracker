@@ -9,6 +9,9 @@ import AddStudent from "./routes/AddStudent";
 import ViewFaculty from "./routes/ViewFaculty";
 import ViewStudent from "./routes/ViewStudent"
 import ViewDepartment from "./routes/ViewDepartment";
+import ViewResults from "./routes/ViewResults";
+import PredictDashboard from "./routes/PredictDashboard";
+import Charts from "./routes/Charts";
 
 function Admin() {
   return (
@@ -17,7 +20,7 @@ function Admin() {
         <Sidebar />
         <div className="ml-64 w-full flex flex-grow flex-col">
           <Header />
-          <div className="p-4">
+          <div className="p-1">
             <Routes>
               <Route path="/" element={<Dashboard />} />
 
@@ -29,6 +32,11 @@ function Admin() {
 
               <Route path="addStudent" element={<AddStudent />} />
               <Route path="viewStudent" element={<ViewStudent />} />
+
+              <Route path="viewResults" element={<PredictDashboard />} />
+              {/* <Route path="predictDashboard" element={<PredictDashboard />} /> */}
+              <Route path="charts" element={<Charts />} />
+
             </Routes>
           </div>
         </div>

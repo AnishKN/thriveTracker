@@ -13,3 +13,4 @@ router.get('/all', resultController.getAllResults);
 router.get('/:id', resultController.getResultById);
 
 module.exports = router;
+ 

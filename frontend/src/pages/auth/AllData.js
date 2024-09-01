@@ -7,12 +7,14 @@ const useData = () => {
     faculty: [],
     students: [],
     tests: [],
+    results: [],
     departments: [],
     counts: {
       adminCount: 0,
       facultyCount: 0,
       studentCount: 0,
       testCount: 0,
+      resultCount: 0,
       departmentCount: 0
     }
   });
@@ -22,11 +24,12 @@ const useData = () => {
   useEffect(() => {
     const fetchCounts = async () => {
       try {
-        const [adminResponse, facultyResponse, studentResponse, testResponse, departmentResponse] = await Promise.all([
+        const [adminResponse, facultyResponse, studentResponse, testResponse, resultResponse, departmentResponse] = await Promise.all([
           axios.get(`${BASE_URL}admins`),
           axios.get(`${BASE_URL}faculties`),
           axios.get(`${BASE_URL}students`),
           axios.get(`${BASE_URL}tests`),
+          axios.get(`${BASE_URL}results/all`),
           axios.get(`${BASE_URL}department`)
         ]);
 
@@ -35,12 +38,14 @@ const useData = () => {
           faculty: facultyResponse.data,
           students: studentResponse.data,
           tests: testResponse.data,
+          results: resultResponse.data,
           departments: departmentResponse.data.data,
           counts: {
             adminCount: adminResponse.data.length,
             facultyCount: facultyResponse.data.length,
             studentCount: studentResponse.data.length,
             testCount: testResponse.data.length,
+            resultCount: resultResponse.data.length,
             departmentCount: departmentResponse.data.data.length 
           }
         });

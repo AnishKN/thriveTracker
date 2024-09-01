@@ -1,83 +1,123 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from "sweetalert2";
+import Select from 'react-select';
+import { useNavigate } from 'react-router-dom';
 
 const AddFaculty = () => {
+  const navigate = useNavigate();
   const BASE_URL = import.meta.env.VITE_BASE_URL;
-  const [file, setFile] = useState(null);
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [department, setDepartment] = useState("");
-  const [mentees, setMentees] = useState("");
+  const [mentees, setMentees] = useState([]);
   const [password, setPassword] = useState("");
+  const [departments, setDepartments] = useState([]);
+  const [students, setStudents] = useState([]);
 
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  };
+  useEffect(() => {
+    // Fetch departments
+    axios.get('http://localhost:5000/department')
+      .then(response => {
+        setDepartments(response.data.data.map(dept => ({
+          value: dept.name,
+          label: dept.name
+        })));
+      })
+      .catch(error => {
+        console.log("Error fetching departments:", error);
+      });
 
-  const handleFileUpload = () => {
-    const formData = new FormData();
-    formData.append('file', file);
-    console.log(file);
-    axios.post(`${BASE_URL}faculties/upload`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data'
-      }
-    })
-    .then(response => {
-      Swal.fire({
-        icon: "success",
-        title: "Success",
-        text: response.data,
+    // Fetch students
+    axios.get('http://localhost:5000/students')
+      .then(response => {
+        setStudents(response.data.map(student => ({
+          value: student.USN,
+          label: student.USN // assuming 'usn' is the property in student object
+        })));
+      })
+      .catch(error => {
+        console.log("Error fetching students:", error);
       });
-    })
-    .catch(error => {
-      Swal.fire({
-        icon: "error",
-        title: "Error",
-        text: error.response.data.message,
-      });
-    });
-  };
+  }, []);
 
   const handleAdd = () => {
-    console.log("Add");
-    axios.request({
-      method: 'post',
-      maxBodyLength: Infinity,
-      url: `${BASE_URL}faculties`,
-      headers: { 
-        'Content-Type': 'application/json'
-      },
-      data : JSON.stringify({
-        "name": name,
-        "email": email,
-        "phone": phone,
-        "department": department,
-        "mentees": mentees.split(","),
-        "password": password,
-        "active": true
-      })
-    })
-    .then((response) => {
-      console.log(JSON.stringify(response.data));
-      Swal.fire({
-        icon: "success",
-        title: "Success",
-        text: response.data.message,
-      });
-    })
-    .catch((error) => {
-      console.log(error);
+    // Check if all required fields are filled
+    if (!name || !email || !phone || !department || !password || mentees.length === 0) {
       Swal.fire({
         icon: "warning",
-        title: "warning",
-        text: error.response.data.message,
+        title: "Validation Error",
+        text: "All fields are required.",
       });
-    });
+      return;
+    }
+
+    // Validate phone number (should be at least 10 digits)
+    const phonePattern = /^\d{10}$/;
+    if (!phonePattern.test(phone)) {
+      Swal.fire({
+        icon: "warning",
+        title: "Validation Error",
+        text: "Enter a valid phone number with at least 10 digits.",
+      });
+      return;
+    }
+
+    // Validate email format
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(email)) {
+      Swal.fire({
+        icon: "warning",
+        title: "Validation Error",
+        text: "Enter a valid email address.",
+      });
+      return;
+    }
+
+    if (password.length<8) {
+      Swal.fire({
+        icon: "warning",
+        title: "Validation Error",
+        text: "Password is too small.",
+      });
+      return;
+    }
+
+    // Proceed with the API request if all validations pass
+    axios.post(`${BASE_URL}faculties`, {
+      name,
+      email,
+      phone,
+      department,
+      mentees: mentees.map(mentee => mentee.value),
+      password,
+      active: true
+    })
+      .then(response => {
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: response.data.message,
+        });
+        // Clear form fields
+        setName("");
+        setEmail("");
+        setPhone("");
+        setDepartment("");
+        setMentees([]);
+        setPassword("");
+        navigate("/admin/viewFaculty");
+      })
+      .catch(error => {
+        Swal.fire({
+          icon: "error",
+          title: "Error",
+          text: error.response?.data?.message || "An error occurred while adding the faculty.",
+        });
+      });
   }
+
 
   return (
     <div className="h-full flex flex-col items-center p-8">
@@ -94,22 +134,6 @@ const AddFaculty = () => {
             </h1>
             <p className="text-gray-600 mb-6">Add new faculty here</p>
           </div>
-          <div className="flex space-x-4 justify-end">
-            <input type="file" onChange={handleFileChange} />
-            <button
-              type="button"
-              onClick={handleFileUpload}
-              className="border border-gray-400 text-gray-600 px-4 py-2 rounded-md hover:bg-gray-100"
-            >
-              Upload CSV
-            </button>
-            <button
-              type="button"
-              className="border border-gray-400 text-gray-600 px-4 py-2 rounded-md hover:bg-gray-100"
-            >
-              Export to Excel file
-            </button>
-          </div>
         </div>
         <div className="space-y-4">
           <div className="flex justify-between items-center">
@@ -117,7 +141,7 @@ const AddFaculty = () => {
             <input
               type="text"
               value={name}
-              onChange={(e)=> setName(e.target.value)}
+              onChange={(e) => setName(e.target.value)}
               placeholder="Enter Name"
               className="border border-gray-300 rounded-md p-2 w-2/3"
             />
@@ -127,7 +151,7 @@ const AddFaculty = () => {
             <input
               type="email"
               value={email}
-              onChange={(e)=> setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter Email"
               className="border border-gray-300 rounded-md p-2 w-2/3"
             />
@@ -135,56 +159,54 @@ const AddFaculty = () => {
           <div className="flex justify-between items-center">
             <label className="block text-gray-700 w-1/3">Phone No.</label>
             <input
-              type="tel"
+              type="number"
               value={phone}
-              onChange={(e)=> setPhone(e.target.value)}
+              onChange={(e) => setPhone(e.target.value)}
               placeholder="Enter Phone no."
               className="border border-gray-300 rounded-md p-2 w-2/3"
             />
           </div>
           <div className="flex justify-between items-center">
             <label className="block text-gray-700 w-1/3">Department</label>
-            <input
-              type="text"
+            <select
               value={department}
-              onChange={(e)=> setDepartment(e.target.value)}
-              placeholder="Choose Department"
+              onChange={(e) => setDepartment(e.target.value)}
               className="border border-gray-300 rounded-md p-2 w-2/3"
-            />
+            >
+              <option value="">Select Department</option>
+              {departments.map(dept => (
+                <option key={dept.label} value={dept.value}>{dept.label}</option>
+              ))}
+            </select>
           </div>
           <div className="flex justify-between items-center">
             <label className="block text-gray-700 w-1/3">Mentees</label>
-            <textarea
-              type="text"
-              placeholder='Type USN of students seperated by comma ( , )'
+            <Select
+              isMulti
+              options={students}
               value={mentees}
-              onChange={(e)=> setMentees(e.target.value)}
-              className="border border-gray-300 rounded-md p-2 w-2/3"
-            ></textarea>
+              onChange={(selectedOptions) => setMentees(selectedOptions)}
+              className="w-2/3"
+              placeholder="Select Mentees"
+            />
           </div>
           <div className="flex justify-between items-center">
             <label className="block text-gray-700 w-1/3">Password</label>
             <input
               type="password"
               value={password}
-              onChange={(e)=> setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter Password"
               className="border border-gray-300 rounded-md p-2 w-2/3"
             />
           </div>
-          <div className="flex justify-start space-x-4 mt-6">
+          <div className="flex justify-end space-x-4 mt-6">
             <button
               type="button"
               onClick={handleAdd}
-              className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-700"
+              className="bg-black my-8 text-white px-4 py-2 rounded-md hover:bg-gray-700"
             >
               Add
-            </button>
-            <button
-              type="button"
-              className="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400"
-            >
-              Cancel
             </button>
           </div>
         </div>

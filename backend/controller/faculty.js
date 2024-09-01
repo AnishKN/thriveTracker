@@ -72,7 +72,7 @@ exports.updateFaculty = async (req, res) => {
 // Delete a faculty
 exports.deleteFaculty = async (req, res) => {
   try {
-    await res.faculty.remove();
+    await Faculty.findByIdAndDelete(req.params.id);
     res.json({ message: "Deleted Faculty" });
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -94,7 +94,6 @@ exports.getFaculty = async (req, res, next) => {
   next();
 };
 
-
 // Upload CSV
 exports.uploadCSV = async (req, res) => {
   if (!req.file) {
@@ -108,13 +107,11 @@ exports.uploadCSV = async (req, res) => {
     .on('end', async () => {
       try {
         for (let row of results) {
-          // Debugging logs
-          console.log('Processing row:', row);
-          const hashedPassword = await bcrypt.hash(row.password, 10);
-
           if (!row.password) {
             throw new Error(`Password is missing for user: ${row.name}`);
           }
+
+          const hashedPassword = await bcrypt.hash(row.password, 10);
 
           const newFaculty = new Faculty({
             name: row.name,
@@ -122,10 +119,9 @@ exports.uploadCSV = async (req, res) => {
             phone: row.phone,
             department: row.department,
             mentees: row.mentees ? row.mentees.split(',').map(usn => usn.trim()) : [],
-            password: hashedPassword, // Add password as-is
+            password: hashedPassword,
             active: true
           });
-          console.log('Processing fac:', newFaculty);
 
           await newFaculty.save();
         }

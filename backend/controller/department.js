@@ -79,7 +79,14 @@ async function updateDepartment(req, res) {
 // Delete a department
 async function deleteDepartment(req, res) {
     try {
-        await res.department.remove();
+        const departmentId = req.params.id; // Assuming you're using an ID parameter to identify the department
+
+        const deletedDepartment = await Department.findByIdAndDelete(departmentId);
+
+        if (!deletedDepartment) {
+            return res.status(404).json({ message: 'Department not found' });
+        }
+
         res.json({ message: 'Department deleted successfully' });
     } catch (err) {
         res.status(500).json({ message: 'Error deleting department', error: err.message });

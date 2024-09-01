@@ -5,6 +5,7 @@ import {
   FaBuilding,
   FaClipboardList,
 } from "react-icons/fa";
+
 import Image01 from "../../../../images/user-36-05.jpg";
 import Image02 from "../../../../images/user-36-06.jpg";
 import Image03 from "../../../../images/user-36-07.jpg";
@@ -13,50 +14,10 @@ import Image05 from "../../../../images/user-36-09.jpg";
 import useData from "../../AllData.js";
 
 const Dashboard = () => {
-  const customers = [
-    {
-      id: "0",
-      image: Image01,
-      name: "Alex Shatov",
-      email: "alexshatov@gmail.com",
-      location: "Asst. Prof",
-      spent: "B.Tech (CSE)",
-    },
-    {
-      id: "1",
-      image: Image02,
-      name: "Philip Harbach",
-      email: "philip.h@gmail.com",
-      location: "HOD",
-      spent: "B.Tech (ECE)",
-    },
-    {
-      id: "2",
-      image: Image03,
-      name: "Mirko Fisuk",
-      email: "mirkofisuk@gmail.com",
-      location: "Asst. Prof",
-      spent: "MCA",
-    },
-    {
-      id: "3",
-      image: Image04,
-      name: "Olga Semklo",
-      email: "olga.s@cool.design",
-      location: "Asst. Prof",
-      spent: "MBA",
-    },
-    {
-      id: "4",
-      image: Image05,
-      name: "Burak Long",
-      email: "longburak@gmail.com",
-      location: "Asst. Prof",
-      spent: "B.Tech (Civil)",
-    },
-  ];
-
   const data = useData();
+  const students = data.students;
+  const faculties = data.faculty;
+  const tests = data.tests;
 
   return (
     <div className="space-y-6">
@@ -107,51 +68,112 @@ const Dashboard = () => {
               <thead className="text-xs font-semibold uppercase text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-gray-700 dark:bg-opacity-50">
                 <tr>
                   <th className="p-2 whitespace-nowrap">
+                    <div className="font-semibold text-left">Sl No</div>
+                  </th>
+                  <th className="p-2 whitespace-nowrap">
                     <div className="font-semibold text-left">Name</div>
+                  </th>
+                  <th className="p-2 whitespace-nowrap">
+                    <div className="font-semibold text-left">Phone</div>
                   </th>
                   <th className="p-2 whitespace-nowrap">
                     <div className="font-semibold text-left">Email</div>
                   </th>
                   <th className="p-2 whitespace-nowrap">
-                    <div className="font-semibold text-left">Department</div>
-                  </th>
-                  <th className="p-2 whitespace-nowrap">
-                    <div className="font-semibold text-center">Role</div>
+                    <div className="font-semibold text-center">Department</div>
                   </th>
                 </tr>
               </thead>
               {/* Table body */}
               <tbody className="text-sm divide-y divide-gray-100 dark:divide-gray-700/60">
-                {customers.map((customer) => {
+                {faculties.map((faculty, index) => {
                   return (
-                    <tr key={customer.id}>
+                    <tr key={faculty._id}>
                       <td className="p-2 whitespace-nowrap">
                         <div className="flex items-center">
-                          <div className="w-10 h-10 shrink-0 mr-2 sm:mr-3">
-                            <img
-                              className="rounded-full"
-                              src={customer.image}
-                              width="40"
-                              height="40"
-                              alt={customer.name}
-                            />
-                          </div>
                           <div className="font-medium text-gray-800 dark:text-gray-100">
-                            {customer.name}
+                            {index + 1}
                           </div>
                         </div>
                       </td>
                       <td className="p-2 whitespace-nowrap">
-                        <div className="text-left">{customer.email}</div>
+                        <div className="text-left">{faculty.name}</div>
+                      </td>
+                      <td className="p-2 whitespace-nowrap">
+                        <div className="text-left">{faculty.phone}</div>
+                      </td>
+                      <td className="p-2 whitespace-nowrap">
+                        <div className="text-left">{faculty.email}</div>
                       </td>
                       <td className="p-2 whitespace-nowrap">
                         <div className="text-left font-medium text-green-500">
-                          {customer.spent}
+                          {faculty.department}
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      {/* Students */}
+      <div className="col-span-full xl:col-span-6 bg-white dark:bg-gray-800 shadow-sm rounded-xl">
+        <header className="px-5 py-4 border-b border-gray-100 dark:border-gray-700/60">
+          <h2 className="font-semibold text-gray-800 dark:text-gray-100">
+            Students
+          </h2>
+        </header>
+        <div className="p-3">
+          {/* Table */}
+          <div className="overflow-x-auto">
+            <table className="table-auto w-full">
+              {/* Table header */}
+              <thead className="text-xs font-semibold uppercase text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-gray-700 dark:bg-opacity-50">
+                <tr>
+                  <th className="p-2 whitespace-nowrap">
+                    <div className="font-semibold text-left">Sl No</div>
+                  </th>
+                  <th className="p-2 whitespace-nowrap">
+                    <div className="font-semibold text-left">Name</div>
+                  </th>
+                  <th className="p-2 whitespace-nowrap">
+                    <div className="font-semibold text-left">Phone</div>
+                  </th>
+                  <th className="p-2 whitespace-nowrap">
+                    <div className="font-semibold text-left">Email</div>
+                  </th>
+                  <th className="p-2 whitespace-nowrap">
+                    <div className="font-semibold text-center">Department</div>
+                  </th>
+                </tr>
+              </thead>
+              {/* Table body */}
+              <tbody className="text-sm divide-y divide-gray-100 dark:divide-gray-700/60">
+                {students.map((student, index) => {
+                  return (
+                    <tr key={student._id}>
+                      <td className="p-2 whitespace-nowrap">
+                        <div className="flex items-center">
+                          <div className="font-medium text-gray-800 dark:text-gray-100">
+                            {index + 1}
+                          </div>
                         </div>
                       </td>
                       <td className="p-2 whitespace-nowrap">
-                        <div className="text-lg text-center">
-                          {customer.location}
+                        <div className="text-left">{student.name}</div>
+                      </td>
+                      <td className="p-2 whitespace-nowrap">
+                        <div className="text-left">{student.phone}</div>
+                      </td>
+                      <td className="p-2 whitespace-nowrap">
+                        <div className="text-left">{student.email}</div>
+                      </td>
+                      <td className="p-2 whitespace-nowrap">
+                        <div className="text-left font-medium text-green-500">
+                          {student.department}
                         </div>
                       </td>
                     </tr>
@@ -165,38 +187,33 @@ const Dashboard = () => {
 
       <div className="bg-white p-6 rounded-lg shadow-md">
         <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl font-bold">Active Quizzes</h2>
+          <h2 className="text-md text-gray-700 font-bold">Active Quizzes</h2>
         </div>
         <div className="space-y-4">
-          <div className="p-4 bg-blue-100 rounded-lg flex justify-between items-center">
-            <div>
-              <div className="text-lg font-bold">IQ Test - 1</div>
-              <div className="text-gray-500">
-                Expires at: 02-07-2024 12:00 AM
+          {tests.map((test, index) => {
+            const testData = JSON.parse(test.testData);
+            return (
+              <div
+                key={test._id}
+                className="p-6 bg-gray-50 shadow-sm rounded-xl flex justify-between items-center hover:shadow-md transition-shadow duration-300"
+              >
+                <div>
+                  <div className="text-xl font-semibold text-gray-800">
+                    {testData.title || "Quiz - " + (index + 1)}
+                  </div>
+                  <div className="text-sm text-gray-500 mt-1">
+                    Posted by: {test.facultyName}
+                  </div>
+                </div>
+                <div className="text-sm font-medium text-green-600">Active</div>
               </div>
-            </div>
-            <div className="text-green-500">Active</div>
-          </div>
-          <div className="p-4 bg-blue-100 rounded-lg flex justify-between items-center">
-            <div>
-              <div className="text-lg font-bold">EQ Test - 1</div>
-              <div className="text-gray-500">
-                Expires at: 01-06-2024 05:45 AM
-              </div>
-            </div>
-            <div className="text-green-500">Active</div>
-          </div>
-          <div className="p-4 bg-blue-100 rounded-lg flex justify-between items-center">
-            <div>
-              <div className="text-lg font-bold">IQ Test - 2</div>
-              <div className="text-gray-500">
-                Expires at: 15-08-2024 06:20 PM
-              </div>
-            </div>
-            <div className="text-green-500">Active</div>
-          </div>
+
+            )
+          })}
         </div>
       </div>
+
+
     </div>
   );
 };
